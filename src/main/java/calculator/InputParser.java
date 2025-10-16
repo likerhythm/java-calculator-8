@@ -37,12 +37,20 @@ public class InputParser {
         }
     }
 
-                throw new IllegalArgumentException();
-            }
-            delimiters.add(Pattern.quote(customDelimiter));
-            return s.substring(4).split(String.join("|", delimiters));
+    private String[] validateNumberFormat(String s, int beginIndex) {
+        String[] split = s.substring(beginIndex).split(String.join("|", delimiters));
+        if (split.length == 1 && split[0].isEmpty()) {
+            return new String[] {"0"};
         }
 
-        return s.split(String.join("|", delimiters));
+        for (String str : split) {
+            try {
+                Integer.parseInt(str);
+            } catch(NumberFormatException e) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        return split;
     }
 }
