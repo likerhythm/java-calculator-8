@@ -51,7 +51,7 @@ public class InputParser {
 
         for (String str : split) {
             try {
-                Integer.parseInt(str);
+                Double.parseDouble(str);
             } catch(NumberFormatException e) {
                 throw new IllegalArgumentException();
             }
