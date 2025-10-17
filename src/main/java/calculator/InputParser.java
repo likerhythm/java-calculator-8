@@ -11,7 +11,7 @@ public class InputParser {
     private static Set<String> delimiters = new HashSet<>();
 
     public InputParser() {
-        delimiters.add("\\.");
+        delimiters.add(",");
         delimiters.add("\\:");
     }
 
@@ -29,6 +29,12 @@ public class InputParser {
 
     private void validateCustomDelimiter(String customDelimiter) {
         if (customDelimiter.length() != 1) { // 커스텀 구분자의 길이가 1이 아닌 경우
+            throw new IllegalArgumentException();
+        }
+        if (customDelimiter.equals(".")) { // 커스텀 구분자가 온점인 경우
+            throw new IllegalArgumentException();
+        }
+        if (customDelimiter.equals("-")) { // 커스텀 구분자가 하이픈인 경우
             throw new IllegalArgumentException();
         }
         char c = customDelimiter.charAt(0);
