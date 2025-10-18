@@ -17,7 +17,7 @@ public class InputParserTest {
 
     @Test
     void 기본_파싱_작업이_정상적으로_작동합니다() {
-        String[] parsed = inputParser.parse("1:2:3");
+        String[] parsed = inputParser.parse("1:2,3");
         Assertions.assertArrayEquals(new String[] {"1", "2", "3"}, parsed);
     }
 
@@ -73,6 +73,13 @@ public class InputParserTest {
 
     @Test
     void 온점은_커스텀_구분자로_사용할_수_없습니다() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//.\n2:4"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//.\\n2:4"));
+    }
+
+    @Test
+    void 역슬래쉬를_커스텀_구분자로_인식합니다() {
+        Assertions.assertArrayEquals(new String[] {"4", "3"}, inputParser.parse("//\\\\n4\\3"));
+    }
+
     }
 }
