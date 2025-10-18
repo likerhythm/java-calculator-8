@@ -34,9 +34,6 @@ public class InputParser {
         if (customDelimiter.equals(".")) { // 커스텀 구분자가 온점인 경우
             throw new IllegalArgumentException();
         }
-        if (customDelimiter.equals("-")) { // 커스텀 구분자가 하이픈인 경우
-            throw new IllegalArgumentException();
-        }
         char c = customDelimiter.charAt(0);
         if (Character.isDigit(c)) { // 커스텀 구분자가 숫자인 경우
             throw new IllegalArgumentException();
@@ -51,7 +48,10 @@ public class InputParser {
 
         for (String str : split) {
             try {
-                Double.parseDouble(str);
+                double v = Double.parseDouble(str);
+                if (v <= 0) {
+                    throw new IllegalArgumentException();
+                }
             } catch(NumberFormatException e) {
                 throw new IllegalArgumentException();
             }

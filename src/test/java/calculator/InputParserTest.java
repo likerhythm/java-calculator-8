@@ -75,9 +75,4 @@ public class InputParserTest {
     void 온점은_커스텀_구분자로_사용할_수_없습니다() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//.\n2:4"));
     }
-
-    @Test
-    void 하이픈은_커스텀_구분자로_사용할_수_없습니다() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//-\n2:4"));
-    }
 }
