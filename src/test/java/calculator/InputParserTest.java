@@ -22,7 +22,7 @@ public class InputParserTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//;\n1:2;3,4", "// \n1 2:3,4"})
+    @ValueSource(strings = {"//;\\n1:2;3,4", "// \\n1 2:3,4"})
     void 커스텀_구분자를_포함한_파싱_작업이_정상적으로_동작합니다(String v) {
         String[] parsed = inputParser.parse(v);
         Assertions.assertArrayEquals(new String[] {"1", "2", "3", "4"}, parsed);
@@ -37,35 +37,35 @@ public class InputParserTest {
     @ParameterizedTest
     @ValueSource(strings = {"  ", ";;"})
     void 커스텀_구분자의_길이가_2_이상인_경우_예외가_발생합니다(String v) {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//" + v + "\n1:2;3,4"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//" + v + "\\n1:2;3,4"));
     }
 
     @Test
     void 커스텀_구분자의_길이가_0인_경우_예외가_발생합니다() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//\n1:2;3,4"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//\\n1:2;3,4"));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
     void 커스텀_구분자가_숫자인_경우_예외가_발생합니다(int v) {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//" + v + "\n1:2;3,4"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//" + v + "\\n1:2;3,4"));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//;n1;2", "//;\1;2", "/;\n1;2", ";\n1;2", "//;1;2", "/;n1;2", "/;\1;2", "/1;\n1;2", "1/;\n1;2"})
+    @ValueSource(strings = {"//;n1;2", "//;\1;2", "/;\\n1;2", ";\\n1;2", "//;1;2", "/;n1;2", "/;\1;2", "/1;\\n1;2", "1/;\\n1;2"})
     void 커스텀_구분자를_잘못_표현한_경우_예외가_발생합니다(String v) {
         Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse(v));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//;\n", ""})
+    @ValueSource(strings = {"//;\\n", ""})
     void 빈_문자열인_경우_0을_반환합니다(String v) {
         String[] parsed = inputParser.parse(v);
         Assertions.assertArrayEquals(new String[] {"0"}, parsed);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"2.4:3.5", "//;\n2.4:3.5"})
+    @ValueSource(strings = {"2.4:3.5", "//;\\n2.4:3.5"})
     void 소수점이_포함된_수를_정상적으로_파싱합니다(String v) {
         String[] parsed = inputParser.parse(v);
         Assertions.assertArrayEquals(new String[] {"2.4", "3.5"}, parsed);
