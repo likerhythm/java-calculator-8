@@ -81,5 +81,8 @@ public class InputParserTest {
         Assertions.assertArrayEquals(new String[] {"4", "3"}, inputParser.parse("//\\\\n4\\3"));
     }
 
+    @Test
+    void 구분자를_2개_이상_연속으로_사용한_경우_예외가_발생합니다() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inputParser.parse("//;\\n1;2;;3"));
     }
 }
