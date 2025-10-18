@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class InputParser {
 
-    private static final Pattern CUSTOM_PREFIX = Pattern.compile("^//(.*)\\n");
+    private static final Pattern CUSTOM_PREFIX = Pattern.compile("^//(.*)\\\\n");
     private static Set<String> delimiters = new HashSet<>();
 
     public InputParser() {
@@ -22,7 +22,7 @@ public class InputParser {
             validateCustomDelimiter(customDelimiter);
             delimiters.add(Pattern.quote(customDelimiter));
 
-            return validateNumberFormat(s, 4);
+            return validateNumberFormat(s, 5);
         }
         return validateNumberFormat(s, 0);
     }
