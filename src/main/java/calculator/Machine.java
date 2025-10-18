@@ -17,6 +17,10 @@ public class Machine {
         String line = Console.readLine();
         String[] parsed = inputParser.parse(line);
         String result = brain.plus(parsed);
+        double d = Double.parseDouble(result);
+        if (d - (int) d == 0) {
+            result = String.valueOf((int) d);
+        }
         System.out.println("결과 : " + result);
     }
 }
