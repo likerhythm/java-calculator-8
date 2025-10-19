@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Brain {
 
-    public String plus(String[] input) {
+    public String plus(final String[] input) {
         if (needBigNumber(input)) {
             BigDecimal sum = BigDecimal.ZERO;
             for (String s : input) {
@@ -21,7 +21,7 @@ public class Brain {
         return String.valueOf(sum);
     }
 
-    private boolean needBigNumber(String[] input) {
+    private boolean needBigNumber(final String[] input) {
         Operands operands = new Operands(input);
         return operands.needBigNumber();
     }

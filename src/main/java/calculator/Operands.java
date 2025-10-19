@@ -11,7 +11,7 @@ public class Operands {
     private final int maxDecimalLength;
     private boolean hasBigNumber;
 
-    public Operands(String[] strings) {
+    public Operands(final String[] strings) {
         operands = new ArrayList<>();
         for (String str : strings) {
             Operand operand = new Operand(str);

@@ -7,7 +7,7 @@ public class Operand {
     private final String intPart;
     private final String decimalPart;
 
-    public Operand(String str) {
+    public Operand(final String str) {
         String[] split = str.split("/.");
         intPart = split[0];
         if (split.length == 2) {

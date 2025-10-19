@@ -16,7 +16,7 @@ public class InputParser {
         delimiters.add("\\:");
     }
 
-    public String[] parse(String s) {
+    public String[] parse(final String s) {
         Matcher matcher = CUSTOM_PREFIX.matcher(s);
         if (matcher.find()) {
             String customDelimiter = matcher.group(1);
@@ -28,7 +28,7 @@ public class InputParser {
         return validateNumberFormat(s, 0);
     }
 
-    private void validateCustomDelimiter(String customDelimiter) {
+    private void validateCustomDelimiter(final String customDelimiter) {
         if (customDelimiter.length() != 1) { // 커스텀 구분자의 길이가 1이 아닌 경우
             throw new IllegalArgumentException();
         }
@@ -41,7 +41,7 @@ public class InputParser {
         }
     }
 
-    private String[] validateNumberFormat(String s, int beginIndex) {
+    private String[] validateNumberFormat(final String s, final int beginIndex) {
         String[] split = s.substring(beginIndex).split(String.join("|", delimiters));
         if (split.length == 1 && split[0].isEmpty()) {
             return new String[] {"0"};

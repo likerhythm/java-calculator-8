@@ -4,8 +4,8 @@ import camp.nextstep.edu.missionutils.Console;
 
 public class Machine {
 
-    private Brain brain;
-    private InputParser inputParser;
+    private final Brain brain;
+    private final InputParser inputParser;
 
     public Machine() {
         this.brain = new Brain();
