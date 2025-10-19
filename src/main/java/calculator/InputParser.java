@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class InputParser {
 
     private static final Pattern CUSTOM_PREFIX = Pattern.compile("^//(.*)\\\\n");
-    private static Set<String> delimiters = new HashSet<>();
+    private static final Set<String> delimiters = new HashSet<>();
 
     public InputParser() {
         delimiters.add(",");
