@@ -1,7 +1,6 @@
 package calculator;
 
 import camp.nextstep.edu.missionutils.Console;
-import java.math.BigDecimal;
 
 public class Machine {
 
@@ -19,5 +18,6 @@ public class Machine {
         String[] parsed = inputParser.parse(line);
         String result = brain.plus(parsed);
         System.out.println("결과 : " + result);
+        Console.close();
     }
 }
