@@ -1,10 +1,13 @@
 package calculator;
 
+import java.math.BigDecimal;
+
 public class Brain {
     public String plus(String[] input) {
-        double sum = 0;
+        BigDecimal sum = BigDecimal.ZERO;
         for (String s : input) {
-            sum += Double.parseDouble(s);
+            BigDecimal v = new BigDecimal(s);
+            sum = sum.add(v);
         }
         return String.valueOf(sum);
     }

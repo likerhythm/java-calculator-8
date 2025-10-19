@@ -1,5 +1,6 @@
 package calculator;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -17,7 +18,7 @@ public class InputParser {
 
     public String[] parse(String s) {
         Matcher matcher = CUSTOM_PREFIX.matcher(s);
-        if (matcher.find()) { // 커스텀 구분자가 존재하는 경우
+        if (matcher.find()) {
             String customDelimiter = matcher.group(1);
             validateCustomDelimiter(customDelimiter);
             delimiters.add(Pattern.quote(customDelimiter));
@@ -48,8 +49,8 @@ public class InputParser {
 
         for (String str : split) {
             try {
-                double v = Double.parseDouble(str);
-                if (v <= 0) {
+                BigDecimal v = new BigDecimal(str);
+                if (v.compareTo(BigDecimal.ZERO) <= 0) {
                     throw new IllegalArgumentException();
                 }
             } catch(NumberFormatException e) {
