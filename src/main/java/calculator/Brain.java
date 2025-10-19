@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 public class Brain {
 
-    private static final int MAX_LENGTH = 12;
-
     public String plus(String[] input) {
         if (needBigNumber(input)) {
             BigDecimal sum = BigDecimal.ZERO;
