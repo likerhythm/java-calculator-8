@@ -1,31 +1,32 @@
 package calculator;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InputParser {
 
     private static final Pattern CUSTOM_PREFIX = Pattern.compile("^//(.*)\\\\n");
-    private static final Set<String> delimiters = new HashSet<>();
+    private final Delimiters delimiters;
 
     public InputParser() {
-        delimiters.add(",");
-        delimiters.add("\\:");
+        delimiters = new Delimiters();
     }
 
-    public String[] parse(final String s) {
+    public String parse(String s) {
         Matcher matcher = CUSTOM_PREFIX.matcher(s);
         if (matcher.find()) {
             String customDelimiter = matcher.group(1);
             validateCustomDelimiter(customDelimiter);
-            delimiters.add(Pattern.quote(customDelimiter));
+            delimiters.add(Pattern.quote(customDelimiter).charAt(0));
 
-            return validateNumberFormat(s, 5);
+            s = validateNumberFormat(s, 5);
+        } else {
+            s = validateNumberFormat(s, 0);
         }
-        return validateNumberFormat(s, 0);
+
+        return infixToPostFix(s);
     }
 
     private void validateCustomDelimiter(final String customDelimiter) {
@@ -41,16 +42,16 @@ public class InputParser {
         }
     }
 
-    private String[] validateNumberFormat(final String s, final int beginIndex) {
-        String[] split = s.substring(beginIndex).split(String.join("|", delimiters));
-        if (split.length == 1 && split[0].isEmpty()) {
-            return new String[] {"0"};
+    private String validateNumberFormat(final String s, final int beginIndex) {
+        String[] split = delimiters.split(s, beginIndex);
+        if (isEmpty(split)) {
+            return "0";
         }
 
         for (String str : split) {
             try {
                 BigDecimal v = new BigDecimal(str);
-                if (v.compareTo(BigDecimal.ZERO) <= 0) {
+                if (isNegative(v)) {
                     throw new IllegalArgumentException();
                 }
             } catch(NumberFormatException e) {
@@ -58,6 +59,47 @@ public class InputParser {
             }
         }
 
-        return split;
+        return s.substring(beginIndex);
+    }
+
+    private String infixToPostFix(String infix) {
+        StringBuilder result = new StringBuilder();
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < infix.length(); i++) {
+            char c = infix.charAt(i);
+
+            if (Character.isDigit(c)) { // 숫자인 경우
+                result.append(c);
+            } else {
+                c = delimiters.delimiterToOperator(c);
+                while (!stack.isEmpty() && priority(stack.peek()) >= priority(c)) {
+                    result.append(stack.pop());
+                }
+                stack.push(c);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+
+        return result.toString();
+    }
+
+    private int priority(char c) {
+        if (c == '+' || c == '-') {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    private static boolean isNegative(BigDecimal v) {
+        return v.compareTo(BigDecimal.ZERO) <= 0;
+    }
+
+    private static boolean isEmpty(String[] split) {
+        return split.length == 1 && split[0].isEmpty();
     }
 }
