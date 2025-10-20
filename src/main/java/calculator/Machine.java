@@ -15,11 +15,11 @@ public class Machine {
     public void run() {
         System.out.println("덧셈할 문자열을 입력해 주세요.");
         String line = Console.readLine();
-        String infix = inputParser.parse(line);
-        String result = brain.plus(infix);
-        double doubleResult = Double.parseDouble(result);
-        if (doubleResult - (int) doubleResult > 0) {
-            result = String.valueOf((int) doubleResult);
+        PostFix postfix = inputParser.parse(line);
+        String result = brain.plus(postfix);
+        String[] split = result.split("\\.");
+        if (split[1].equals("0")) {
+            result = split[0];
         }
         System.out.println("결과 : " + result);
         Console.close();

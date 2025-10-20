@@ -14,19 +14,21 @@ public class InputParser {
         delimiters = new Delimiters();
     }
 
-    public String parse(String s) {
+    public PostFix parse(String s) {
         Matcher matcher = CUSTOM_PREFIX.matcher(s);
         if (matcher.find()) {
             String customDelimiter = matcher.group(1);
             validateCustomDelimiter(customDelimiter);
-            delimiters.add(Pattern.quote(customDelimiter).charAt(0));
+
+            delimiters.add(customDelimiter.charAt(0));
 
             s = validateNumberFormat(s, 5);
         } else {
             s = validateNumberFormat(s, 0);
         }
 
-        return infixToPostFix(s);
+        String[] split = delimiters.split(s, 0);
+        return new PostFix(infixToPostFix(s), needBigNumber(split));
     }
 
     private void validateCustomDelimiter(final String customDelimiter) {
@@ -62,6 +64,11 @@ public class InputParser {
         return s.substring(beginIndex);
     }
 
+    private boolean needBigNumber(final String[] postfix) {
+        Operands operands = new Operands(postfix);
+        return operands.needBigNumber();
+    }
+
     private String infixToPostFix(String infix) {
         StringBuilder result = new StringBuilder();
         Stack<Character> stack = new Stack<>();
@@ -69,12 +76,16 @@ public class InputParser {
         for (int i = 0; i < infix.length(); i++) {
             char c = infix.charAt(i);
 
-            if (Character.isDigit(c)) { // 숫자인 경우
+            if (Character.isDigit(c) || c == '.') {
                 result.append(c);
+                if (i + 1 >= infix.length() ||
+                    !Character.isDigit(infix.charAt(i + 1)) && infix.charAt(i + 1) != '.') {
+                    result.append(' ');
+                }
             } else {
                 c = delimiters.delimiterToOperator(c);
                 while (!stack.isEmpty() && priority(stack.peek()) >= priority(c)) {
-                    result.append(stack.pop());
+                    result.append(stack.pop()).append(' ');
                 }
                 stack.push(c);
             }
@@ -84,7 +95,7 @@ public class InputParser {
             result.append(stack.pop());
         }
 
-        return result.toString();
+        return result.toString().trim();
     }
 
     private int priority(char c) {

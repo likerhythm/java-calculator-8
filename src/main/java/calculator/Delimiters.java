@@ -17,7 +17,7 @@ public class Delimiters {
         Delimiter delimiter = delimiters.stream().filter(d -> d.equals(c))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 구분자입니다"));
-        return delimiter.getValue();
+        return delimiter.getOperatorCharacter();
     }
 
     public void add(char c) {
