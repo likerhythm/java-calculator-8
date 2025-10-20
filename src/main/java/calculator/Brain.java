@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class Brain {
 
-    public String plus(final PostFix postfix) {
+    public String run(final PostFix postfix) {
         if (postfix.getNeedBigNumber()) {
             return calculateBigDecimal(postfix.getValue()).toString();
         }
