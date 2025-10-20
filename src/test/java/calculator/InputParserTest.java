@@ -17,15 +17,15 @@ public class InputParserTest {
 
     @Test
     void 기본_파싱_작업이_정상적으로_작동합니다() {
-        String[] parsed = inputParser.parse("1:2,3");
-        Assertions.assertArrayEquals(new String[] {"1", "2", "3"}, parsed);
+        PostFix postFix = inputParser.parse("1:2,3");
+        Assertions.assertEquals("1 2 + 3 +", postFix.getValue());
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//;\\n1:2;3,4", "// \\n1 2:3,4"})
+    @ValueSource(strings = {"//;\\n1:2;3", "// \\n1 2:3"})
     void 커스텀_구분자를_포함한_파싱_작업이_정상적으로_동작합니다(String v) {
-        String[] parsed = inputParser.parse(v);
-        Assertions.assertArrayEquals(new String[] {"1", "2", "3", "4"}, parsed);
+        PostFix postFix = inputParser.parse(v);
+        Assertions.assertEquals("1 2 + 3 +", postFix.getValue());
     }
 
     @ParameterizedTest
@@ -60,15 +60,15 @@ public class InputParserTest {
     @ParameterizedTest
     @ValueSource(strings = {"//;\\n", ""})
     void 빈_문자열인_경우_0을_반환합니다(String v) {
-        String[] parsed = inputParser.parse(v);
-        Assertions.assertArrayEquals(new String[] {"0"}, parsed);
+        PostFix postFix = inputParser.parse(v);
+        Assertions.assertEquals("0", postFix.getValue());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"2.4:3.5", "//;\\n2.4:3.5"})
     void 소수점이_포함된_수를_정상적으로_파싱합니다(String v) {
-        String[] parsed = inputParser.parse(v);
-        Assertions.assertArrayEquals(new String[] {"2.4", "3.5"}, parsed);
+        PostFix postFix = inputParser.parse(v);
+        Assertions.assertEquals("2.4 3.5 +", postFix.getValue());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class InputParserTest {
 
     @Test
     void 역슬래쉬를_커스텀_구분자로_인식합니다() {
-        Assertions.assertArrayEquals(new String[] {"4", "3"}, inputParser.parse("//\\\\n4\\3"));
+        Assertions.assertEquals("4 3 +", inputParser.parse("//\\\\n4\\3").getValue());
     }
 
     @Test
