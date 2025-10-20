@@ -16,21 +16,20 @@ public class InputParser {
         delimiters = new Delimiters();
     }
 
-    public PostFix parse(String s) {
-        Matcher matcher = CUSTOM_PREFIX.matcher(s);
+    public PostFix parse(String infix) {
+        Matcher matcher = CUSTOM_PREFIX.matcher(infix);
         if (matcher.find()) {
             String customDelimiter = matcher.group(1);
             validateCustomDelimiter(customDelimiter);
-
             delimiters.add(customDelimiter.charAt(0));
 
-            s = validateNumberFormat(s, 5);
+            infix = validateNumberFormat(infix, 5);
         } else {
-            s = validateNumberFormat(s, 0);
+            infix = validateNumberFormat(infix, 0);
         }
 
-        String[] split = delimiters.split(s, 0);
-        return new PostFix(infixToPostFix(s), needBigNumber(split));
+        String[] split = delimiters.split(infix, 0);
+        return new PostFix(infixToPostFix(infix), needBigNumber(split));
     }
 
     private void validateCustomDelimiter(final String customDelimiter) {
