@@ -18,7 +18,7 @@ public class Machine {
         PostFix postfix = inputParser.parse(line);
         String result = brain.run(postfix);
         String[] split = result.split("\\.");
-        if (split[1].equals("0")) {
+        if (split.length > 1 && split[1].equals("0")) {
             result = split[0];
         }
         System.out.println("결과 : " + result);

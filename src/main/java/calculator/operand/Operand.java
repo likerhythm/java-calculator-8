@@ -8,7 +8,7 @@ public class Operand {
     private final String decimalPart;
 
     public Operand(final String str) {
-        String[] split = str.split("/.");
+        String[] split = str.split("\\.");
         intPart = split[0];
         if (split.length == 2) {
             decimalPart = split[1];
@@ -27,5 +27,9 @@ public class Operand {
 
     public int getDecimalLength() {
         return decimalPart.length();
+    }
+
+    public boolean isDecimal() {
+        return !decimalPart.isEmpty();
     }
 }

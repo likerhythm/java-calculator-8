@@ -20,10 +20,12 @@ public class Operands {
         }
         maxIntLength = operands.stream().mapToInt(Operand::getIntLength).max().getAsInt();
         maxDecimalLength = operands.stream().mapToInt(Operand::getDecimalLength).max().getAsInt();
-        hasBigNumber = false;
     }
 
     public boolean needBigNumber() {
-        return maxIntLength + maxDecimalLength > Operand.MAX_LENGTH || hasBigNumber || operands.size() > MAX_SIZE;
+        return maxIntLength + maxDecimalLength > Operand.MAX_LENGTH
+                || hasBigNumber
+                || operands.size() > MAX_SIZE
+                || operands.stream().anyMatch(Operand::isDecimal);
     }
 }
