@@ -1,4 +1,4 @@
-package calculator;
+package calculator.operand;
 
 public class Operand {
 

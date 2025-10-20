@@ -1,5 +1,7 @@
-package calculator;
+package calculator.delimiter;
 
+import calculator.operator.Operators;
+import calculator.operator.Plus;
 import java.util.ArrayList;
 import java.util.List;
 

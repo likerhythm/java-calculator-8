@@ -1,4 +1,4 @@
-package calculator;
+package calculator.operator;
 
 public interface Operator {
     char getCharacter();

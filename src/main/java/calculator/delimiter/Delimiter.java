@@ -1,4 +1,6 @@
-package calculator;
+package calculator.delimiter;
+
+import calculator.operator.Operator;
 
 public class Delimiter {
 
