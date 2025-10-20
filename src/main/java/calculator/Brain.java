@@ -21,9 +21,7 @@ public class Brain {
             if (Operators.isOperator(token)) {
                 double operand2 = stack.pop();
                 double operand1 = stack.pop();
-
-                double result = 0;
-                result = Operators.calc(operand1, operand2, token);
+                double result = Operators.calc(operand1, operand2, token);
 
                 stack.push(result);
             } else {
